@@ -47,36 +47,45 @@ Blockly.Arduino.Baron_analog_read = function() {
 // LED
 Blockly.Arduino.Baron_Led = function() {
   var dropdown_pin = this.getFieldValue('PIN');
-  var dropdown_stat = this.getFieldValue('STAT');
-  Blockly.Arduino.definitions_['include_ks'] = '#include "Ks.h"';
-  Blockly.Arduino.definitions_['var_nova_led'+dropdown_pin] = 'LED  led_'+dropdown_pin+''+'('+dropdown_pin+');';
-  var code = 'led_'+dropdown_pin+'.'+dropdown_stat+';\n'
+  var dropdown_stat = Blockly.Arduino.valueToCode(this, 'STAT', Blockly.Arduino.ORDER_ATOMIC);
+  //var dropdown_stat = this.getFieldValue('STAT');
+  /*Blockly.Arduino.definitions_['include_ks'] = '#include "Ks.h"';
+  //Blockly.Arduino.definitions_['var_nova_led'+dropdown_pin] = 'LED  led_'+dropdown_pin+''+'('+dropdown_pin+');';
+  var code = 'led_'+dropdown_pin+'.'+dropdown_stat+';\n'*******************************调用函数   但这样LED不能实现PWM,所以还是不调用了      */
+   Blockly.Arduino.setups_['setup_output_'+dropdown_pin] = 'pinMode('+dropdown_pin+', OUTPUT);';
+  var code = 'digitalWrite('+dropdown_pin+','+dropdown_stat+');\n'
   return code;
+
+  
 };
 
 // Led_PWM
 Blockly.Arduino.Baron_Led_PWM = function() {
   var dropdown_pin = this.getFieldValue('PIN');
   var value_num = Blockly.Arduino.valueToCode(this, 'NUM', Blockly.Arduino.ORDER_ATOMIC);
-   Blockly.Arduino.definitions_['include_ks'] = '#include "Ks.h"';
+  // Blockly.Arduino.definitions_['include_ks'] = '#include "Ks.h"';
    // Blockly.Arduino.setups_['setup_output_'+dropdown_pin] = 'pinMode('+dropdown_pin+', OUTPUT);';
     //var code = 'analogWrite('+dropdown_pin+','+value_num+');\n'
-   Blockly.Arduino.definitions_['var_nova_led'+dropdown_pin] = 'LED  led_'+dropdown_pin+''+'('+dropdown_pin+');';
-  var code = 'led_'+dropdown_pin+'.brightness(100-'+value_num+');\n'
+ //  Blockly.Arduino.definitions_['var_nova_led'+dropdown_pin] = 'LED  led_'+dropdown_pin+''+'('+dropdown_pin+');';
+  //var code = 'led_'+dropdown_pin+'.brightness(100-'+value_num+');\n'
+   Blockly.Arduino.setups_['setup_output_'+dropdown_pin] = 'pinMode('+dropdown_pin+', OUTPUT);';
+    var code = 'analogWrite('+dropdown_pin+','+value_num+');\n'
     return code;
  
 };
 
 Blockly.Arduino.Baron_Laser = Blockly.Arduino.Baron_Led;
 
-
 // Active_Buzzer
-Blockly.Arduino.Baron_Active_Buzzer = function() {
+ Blockly.Arduino.Baron_Active_Buzzer = function() {
   var dropdown_pin = this.getFieldValue('PIN');
-  var dropdown_stat = this.getFieldValue('STAT');
-  Blockly.Arduino.definitions_['include_ks'] = '#include "Ks.h"';
- Blockly.Arduino.definitions_['var_baron_buzzer'+dropdown_pin] = 'Buzzer  Buzzer_'+dropdown_pin+''+'('+dropdown_pin+');';
-  var code = 'Buzzer_'+dropdown_pin+'.'+dropdown_stat+';\n'
+  var dropdown_stat = Blockly.Arduino.valueToCode(this, 'STAT', Blockly.Arduino.ORDER_ATOMIC);
+  //var dropdown_stat = this.getFieldValue('STAT');
+  /*Blockly.Arduino.definitions_['include_ks'] = '#include "Ks.h"';
+  //Blockly.Arduino.definitions_['var_nova_led'+dropdown_pin] = 'LED  led_'+dropdown_pin+''+'('+dropdown_pin+');';
+  var code = 'led_'+dropdown_pin+'.'+dropdown_stat+';\n'*******************************调用函数   但这样LED不能实现PWM,所以还是不调用了      */
+   Blockly.Arduino.setups_['setup_output_'+dropdown_pin] = 'pinMode('+dropdown_pin+', OUTPUT);';
+  var code = 'digitalWrite('+dropdown_pin+','+dropdown_stat+');\n'
   return code;
 };
 
@@ -120,6 +129,7 @@ Blockly.Arduino.Baron_Active_Buzzer = function() {
       var code = 'Buzzer_'+dropdown_pin+'.tone('+fre+','+dur+');\n'
       return code;
   };
+
 
 // Button
 Blockly.Arduino.Baron_Button = function() {
@@ -210,7 +220,7 @@ Blockly.Arduino.Baron_Traffic_lights = function() {
      Blockly.Arduino.setups_['setup_output_'+9] = 'pinMode('+9+', OUTPUT);';
      Blockly.Arduino.setups_['setup_output_'+10] = 'pinMode('+10+', OUTPUT);';
      Blockly.Arduino.setups_['setup_output_'+11] = 'pinMode('+11+', OUTPUT);';
-    var code = 'analogWrite('+9+','+R+');analogWrite('+10+','+G+');analogWrite('+11+','+B+');\n';
+    var code = 'analogWrite('+10+','+R+');analogWrite('+9+','+G+');analogWrite('+11+','+B+');\n';
     return code;
 
   };
@@ -289,7 +299,7 @@ Blockly.Arduino.Baron_joystick_a = function() {
       var dropdown_rgbpin = Blockly.Arduino.valueToCode(this, 'PIN', Blockly.Arduino.ORDER_ATOMIC);
       var value_ledcount = Blockly.Arduino.valueToCode(this, 'LEDCOUNT', Blockly.Arduino.ORDER_ATOMIC);
       Blockly.Arduino.definitions_['define_i2c'] = '#include <Wire.h>';
-      Blockly.Arduino.definitions_['include_display'] = '#include "Mixly.h"';
+      Blockly.Arduino.definitions_['include_display'] = '#include "Adafruit_NeoPixel.h"';
       Blockly.Arduino.definitions_['var_rgb_display'] = 'Adafruit_NeoPixel  rgb_display' + '(' + value_ledcount + ',' + dropdown_rgbpin + ');';
       Blockly.Arduino.setups_['setup_rgb_displaybegin_'] = 'rgb_display.begin();';
       Blockly.Arduino.setups_['setup_rgb_display_initshow'] = 'rgb_display.show();  // Initialize all pixels to off';

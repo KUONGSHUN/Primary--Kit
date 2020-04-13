@@ -11,10 +11,11 @@ var THREE_PORTS =[["S0", "S0"],["S1", "S1"],["S2", "S2"],["S3", "S3"],
 ["A0", "A0"],["A1", "A1"],["A2", "A2"],["A3", "A3"]];
 
 var Baron_PORTS =[["A", "A0"],["B", "A1"],["C", "C"],["D", "D"],["E", "E"],["F", "F"]];
-var LED_PORTS =[["C", "C"],["D", "D"],["E", "E"],["F", "F"]];
+var LED_PORTS =[["C", "3"],["D", "8"],["E", "10"],["F", "2"]];
+var DHT_PORTS =[["C", "C"],["D", "D"],["E", "E"],["F", "F"]];
 var Buzzer_PORTS =[["C", "3"],["D", "8"],["E", "10"],["F", "2"]];
 
-var PWM_PORTS =[["C", "C"],["E", "E"]];
+var PWM_PORTS =[["C", "3"],["E", "10"]];
 var ANALOG_PORTS =[["A", "A0"],["B", "A1"]];
 var DCMOTOR_PORTS =[["C", "C"],["E", "E"]];
 
@@ -150,10 +151,15 @@ Blockly.Blocks.Baron_Led = {
     .appendField(new Blockly.FieldImage("../../media/KS/KS_led.png", 149, 82))
     .appendField(Blockly.LKL_NOVA_PORT)
       .appendField(new Blockly.FieldDropdown(LED_PORTS), "PIN")
-        .appendField(Blockly.LKL_NOVA_STAT)
-        .appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_LED_ON, "on()"], [Blockly.LKL_NOVA_LED_OFF, "off()"]]), "STAT");
+       /* .appendField(Blockly.LKL_NOVA_STAT)
+        .appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_LED_ON, "on()"], [Blockly.LKL_NOVA_LED_OFF, "off()"]]), "STAT");调用函数*/
+    this.appendValueInput("STAT")
+          .appendField(Blockly.MIXLY_STAT)
+          .setCheck([Number,Boolean]);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+     // this.setInputsInline(true);
+     // this.setTooltip(Blockly.LANG_INOUT_DIGITAL_WRITE_TOOLTIP);
   }
 };
 
@@ -167,8 +173,8 @@ Blockly.Blocks.Baron_Led_PWM = {
     .appendField(Blockly.LKL_NOVA_PORT)
       .appendField(new Blockly.FieldDropdown(PWM_PORTS), "PIN")
    this.appendValueInput("NUM", Number)
-        .setCheck(Number)
-        .appendField(Blockly.LKL_NOVA_LED_PWM);
+          .appendField(Blockly.MIXLY_VALUE2)
+          .setCheck(Number);
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -184,8 +190,11 @@ Blockly.Blocks.Baron_Laser = {
     .appendField(new Blockly.FieldImage("../../media/KS/KS_Laser.png", 149, 82))
     .appendField(Blockly.LKL_NOVA_PORT)
       .appendField(new Blockly.FieldDropdown(LED_PORTS), "PIN")
-        .appendField(Blockly.LKL_NOVA_STAT)
-        .appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_LED_ON, "on()"], [Blockly.LKL_NOVA_LED_OFF, "off()"]]), "STAT");
+      this.appendValueInput("STAT")
+          .appendField(Blockly.MIXLY_STAT)
+          .setCheck([Number,Boolean]);
+       // .appendField(Blockly.LKL_NOVA_STAT)
+        //.appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_LED_ON, "on()"], [Blockly.LKL_NOVA_LED_OFF, "off()"]]), "STAT");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
   }
@@ -200,11 +209,17 @@ Blockly.Blocks.Baron_Active_Buzzer = {
       .appendField(Blockly.LKL_Baron_BUZZER)
     .appendField(new Blockly.FieldImage("../../media/KS/KS_Buzzer.png", 149, 82))
     .appendField(Blockly.LKL_NOVA_PORT)
-      .appendField(new Blockly.FieldDropdown(LED_PORTS), "PIN")
+    .appendField(new Blockly.FieldDropdown(LED_PORTS), "PIN")
+    this.appendValueInput("STAT")
+          .appendField(Blockly.MIXLY_STAT)
+          .setCheck([Number,Boolean]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+     /* .appendField(new Blockly.FieldDropdown(DHT_PORTS), "PIN")
         .appendField(Blockly.LKL_NOVA_STAT)
         .appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_LED_ON, "on()"], [Blockly.LKL_NOVA_LED_OFF, "off()"]]), "STAT");
     this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setNextStatement(true, null);*/
   }
 };
 
@@ -260,7 +275,7 @@ Blockly.Blocks.Baron_Button = {
         .appendField(Blockly.LKL_NOVA_BTN)
        .appendField(new Blockly.FieldImage("../../media/KS/KS_Button.png", 149, 82))
       .appendField(Blockly.LKL_NOVA_PORT)
-        .appendField(new Blockly.FieldDropdown(LED_PORTS), "PIN")
+        .appendField(new Blockly.FieldDropdown(DHT_PORTS), "PIN")
         .appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_BUTTON_PRESSED, "1"],[Blockly.LKL_NOVA_BUTTON_RELEASED, "0"]]), "STAT");
     this.setOutput(true, Number);
     this.setTooltip('');
@@ -305,12 +320,13 @@ init: function() {
         .appendField(Blockly.LKL_NOVA_DHT11)
     .appendField(new Blockly.FieldImage("../../media/KS/Ks_DHTxx.png", 149, 82)) 
         .appendField(Blockly.LKL_NOVA_PORT)
-        .appendField(new Blockly.FieldDropdown(LED_PORTS), "PIN");
+        .appendField(new Blockly.FieldDropdown(DHT_PORTS), "PIN");
     this.appendDummyInput("")
       .appendField(Blockly.LKL_NOVA_TYPE)
         .appendField(new Blockly.FieldDropdown([[Blockly.LKL_NOVA_DHT11_H, "readHumidity()"], [Blockly.LKL_NOVA_DHT11_T, "readTemperature()"]]), "dht");
   this.setOutput(true, Number);
   this.setInputsInline(true);
+  
   }
 };
 

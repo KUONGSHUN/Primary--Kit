@@ -38,7 +38,7 @@
 
 
 #include <utility/Servo.h>
-#include <utility/Wire.h>
+//#include <utility/Wire.h>
 #include <utility/EEPROM.h>
 #include <utility/SoftwareSerial.h>
 #include <utility/SPI.h>
@@ -53,6 +53,7 @@
 #include "Ks_Touch.h"
 #include "Ks_Sound.h"
 #include "Ks_Joystick.h"
+//#include "Adafruit_NeoPixel.h"  //for RGB
 
 
 //#include "Ks_DCMotor.h"

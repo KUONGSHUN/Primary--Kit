@@ -1,0 +1,1 @@
+<xml version=\"1.0.8\" board=\"Arduino/Genuino Uno\" xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"Baron_Motor\" id=\"sy~9=Sw2eJXERdiXYCkt\" x=\"-28\" y=\"270\"><field name=\"PIN\">C</field><value name=\"NUM\"><shadow type=\"math_number\" id=\"Rb%~6O;c1f%RH*cpcV!O\"><field name=\"NUM\">100</field></shadow></value></block></xml>
